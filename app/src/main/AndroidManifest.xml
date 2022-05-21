@@ -13,6 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WestCoastCustomsIntentService"
         tools:targetApi="31">
+
+        <service
+            android:name=".intentservice.TimerService"
+            android:exported="false">
+        </service>
+
+        <service
+            android:name=".intentservice.CustomTimerService"
+            android:exported="false">
+        </service>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
