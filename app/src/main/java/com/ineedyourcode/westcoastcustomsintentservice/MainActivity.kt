@@ -9,9 +9,18 @@ import com.ineedyourcode.westcoastcustomsintentservice.intentservice.TimerServic
 
 class MainActivity : AppCompatActivity() {
     companion object {
-        const val TIME_FROM_INTENT_SERVICE_EXTRA_KEY = "TIME_FROM_INTENT_SERVICE_EXTRA_KEY"
-        const val TIME_FROM_CUSTOM_INTENT_SERVICE_EXTRA_KEY =
-            "TIME_FROM_CUSTOM_INTENT_SERVICE_EXTRA_KEY"
+        const val TIMER_SERVICE_EXTRA_KEY = "TIMER_SERVICE_EXTRA_KEY"
+        const val CUSTOM_TIMER_SERVICE_EXTRA_KEY = "CUSTOM_TIMER_SERVICE_EXTRA_KEY"
+    }
+
+    private var isServicesStopped = false
+
+    private val timerServiceIntent by lazy {
+        Intent(this, TimerService::class.java)
+    }
+
+    private val customTimerServiceIntent by lazy {
+        Intent(this, CustomTimerService::class.java)
     }
 
     private lateinit var binding: ActivityMainBinding
@@ -22,32 +31,54 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.startAndroidIntentServiceButton.setOnClickListener {
-            startService(Intent(this, TimerService::class.java))
-            binding.startAndroidIntentServiceButton.isEnabled = false
+            startServices()
         }
 
-        binding.startCustomIntentServiceButton.setOnClickListener {
-            startService(Intent(this, CustomTimerService::class.java))
-            binding.startCustomIntentServiceButton.isEnabled = false
+        binding.stopAllServicesButton.setOnClickListener {
+            stopServices()
         }
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if (intent?.extras?.containsKey(TIME_FROM_INTENT_SERVICE_EXTRA_KEY) == true) {
-            binding.timerForAndroidIntentServiceTextView.text =
-                intent.getStringExtra(TIME_FROM_INTENT_SERVICE_EXTRA_KEY)
-            if (binding.timerForAndroidIntentServiceTextView.text == "0") {
-                binding.startAndroidIntentServiceButton.isEnabled = true
+        checkIntent(intent)
+    }
+
+    private fun stopServices() {
+        isServicesStopped = true
+        stopService(timerServiceIntent)
+        stopService(customTimerServiceIntent)
+    }
+
+    private fun startServices() {
+        isServicesStopped = false
+        startService(timerServiceIntent)
+        binding.startAndroidIntentServiceButton.isEnabled = false
+    }
+
+    private fun checkIntent(intent: Intent?) {
+        if (intent?.extras?.containsKey(TIMER_SERVICE_EXTRA_KEY) == true) {
+            val timerValue = intent.getStringExtra(TIMER_SERVICE_EXTRA_KEY)
+            binding.timerForAndroidIntentServiceTextView.text = timerValue
+            if (timerValue == "5" && !isServicesStopped) {
+                startService(customTimerServiceIntent)
             }
         }
 
-        if (intent?.extras?.containsKey(TIME_FROM_CUSTOM_INTENT_SERVICE_EXTRA_KEY) == true) {
-            binding.timerForCustomIntentServiceTextView.text =
-                intent.getStringExtra(TIME_FROM_CUSTOM_INTENT_SERVICE_EXTRA_KEY)
-            if (binding.timerForCustomIntentServiceTextView.text == "0.0") {
-                binding.startCustomIntentServiceButton.isEnabled = true
+        if (intent?.extras?.containsKey(CUSTOM_TIMER_SERVICE_EXTRA_KEY) == true) {
+            val timerValue = intent.getStringExtra(CUSTOM_TIMER_SERVICE_EXTRA_KEY)
+            binding.timerForCustomIntentServiceTextView.text = timerValue
+            if (timerValue == "0.0" && !isServicesStopped) {
+                startService(timerServiceIntent)
             }
         }
+
+        if (binding.timerForCustomIntentServiceTextView.text == "0.0" &&
+            binding.timerForAndroidIntentServiceTextView.text == "5" &&
+            isServicesStopped
+        ) {
+            binding.startAndroidIntentServiceButton.isEnabled = true
+        }
+        intent?.extras?.clear()
     }
 }

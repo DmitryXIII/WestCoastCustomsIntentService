@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">WestCoastCustomsIntentService</string>
-    <string name="start_android_intent_service">Запустить Intent service</string>
-    <string name="start_custom_intent_service">Запустить Custom Intent service</string>
+    <string name="start_services">Запустить сервисы</string>
+    <string name="stop_all_services">Остановить сервисы</string>
     <string name="timer_start_time">Стартовое время таймера</string>
+    <string name="timer_start_value">0</string>
+    <string name="custom_timer_start_value">5.0</string>
 </resources>

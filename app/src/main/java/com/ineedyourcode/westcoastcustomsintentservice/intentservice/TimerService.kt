@@ -5,22 +5,16 @@ import android.content.Intent
 import android.util.Log
 import com.ineedyourcode.westcoastcustomsintentservice.MainActivity
 
-private const val INTENT_SERVICE_THREAD_NAME = "INTENT_SERVICE_THREAD_NAME"
-private const val TAG = "INTENT_SERVICE_THREAD_NAME"
+private const val TIMER_SERVICE_THREAD_NAME = "TIMER_SERVICE_THREAD_NAME"
+private const val TAG = "TIMER_SERVICE_THREAD"
 
 
-class TimerService : IntentService(INTENT_SERVICE_THREAD_NAME) {
+class TimerService : IntentService(TIMER_SERVICE_THREAD_NAME) {
 
     @Deprecated("Deprecated in Java")
     override fun onCreate() {
         Log.d(TAG, "onCreate() called")
         super.onCreate()
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onStart(intent: Intent?, startId: Int) {
-        Log.d(TAG, "onStart() called with: intent = $intent, startId = $startId")
-        super.onStart(intent, startId)
     }
 
     @Deprecated("Deprecated in Java")
@@ -31,13 +25,15 @@ class TimerService : IntentService(INTENT_SERVICE_THREAD_NAME) {
 
     @Deprecated("Deprecated in Java")
     override fun onHandleIntent(p0: Intent?) {
-        for (i in 5 downTo 0) {
+        for (i in 1..5) {
             val intent = Intent(this, MainActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                putExtra(MainActivity.TIME_FROM_INTENT_SERVICE_EXTRA_KEY, i.toString())
+                putExtra(MainActivity.TIMER_SERVICE_EXTRA_KEY, i.toString())
             }
             startActivity(intent)
-            Thread.sleep(1000)
+            if (i != 5) {
+                Thread.sleep(1000)
+            }
         }
     }
 }

@@ -15,10 +15,9 @@ class CustomTimerService : CustomIntentService(SERVICE_THREAD_NAME) {
         Log.d(TAG, "onCreate() called")
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onStart(intent: Intent?, startId: Int) {
-        super.onStart(intent, startId)
-        Log.d(TAG, "onStart() called with: intent = $intent, startId = $startId")
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy() called")
     }
 
     override fun onBind(p0: Intent?): IBinder? {
@@ -41,19 +40,18 @@ class CustomTimerService : CustomIntentService(SERVICE_THREAD_NAME) {
         var timerTime: String
 
         for (i in 5 downTo 1) {
-
             for (j in 10 downTo 1) {
                 timerTime = if (j == 10) {
                     "$i.0"
                 } else {
                     "${i - 1}.$j"
                 }
-                timerIntent.putExtra(MainActivity.TIME_FROM_CUSTOM_INTENT_SERVICE_EXTRA_KEY,
+                timerIntent.putExtra(MainActivity.CUSTOM_TIMER_SERVICE_EXTRA_KEY,
                     timerTime)
                 startActivity(timerIntent)
                 Thread.sleep(100)
                 if (timerTime == "0.1") {
-                    timerIntent.putExtra(MainActivity.TIME_FROM_CUSTOM_INTENT_SERVICE_EXTRA_KEY,
+                    timerIntent.putExtra(MainActivity.CUSTOM_TIMER_SERVICE_EXTRA_KEY,
                         "0.0")
                     startActivity(timerIntent)
                 }

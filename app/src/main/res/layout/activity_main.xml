@@ -13,26 +13,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/padding_16"
-        android:text="@string/start_android_intent_service" />
+        android:text="@string/start_services" />
 
     <TextView
         android:id="@+id/timer_for_android_intent_service_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.Material3.DisplayLarge"
-        tools:text="@tools:sample/lorem" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/start_custom_intent_service_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/padding_16"
-        android:text="@string/start_custom_intent_service" />
+        android:text="@string/timer_start_value"
+        android:textAppearance="@style/TextAppearance.Material3.DisplayLarge" />
 
     <TextView
         android:id="@+id/timer_for_custom_intent_service_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.Material3.DisplayLarge"
-        tools:text="@tools:sample/lorem" />
+        android:text="@string/custom_timer_start_value"
+        android:textAppearance="@style/TextAppearance.Material3.DisplayLarge" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/stop_all_services_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/padding_16"
+        android:text="@string/stop_all_services" />
 </LinearLayout>
