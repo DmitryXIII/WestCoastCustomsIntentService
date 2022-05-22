@@ -1,7 +1,6 @@
 package com.ineedyourcode.westcoastcustomsintentservice.intentservice
 
 import android.content.Intent
-import android.os.IBinder
 import android.util.Log
 import com.ineedyourcode.westcoastcustomsintentservice.MainActivity
 
@@ -9,20 +8,6 @@ private const val TAG = "CUSTOM_TIMER_SERVICE_THREAD"
 private const val SERVICE_THREAD_NAME = "SERVICE_THREAD_NAME"
 
 class CustomTimerService : CustomIntentService(SERVICE_THREAD_NAME) {
-
-    override fun onCreate() {
-        super.onCreate()
-        Log.d(TAG, "onCreate() called")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy() called")
-    }
-
-    override fun onBind(p0: Intent?): IBinder? {
-        return null
-    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(TAG,
@@ -46,16 +31,20 @@ class CustomTimerService : CustomIntentService(SERVICE_THREAD_NAME) {
                 } else {
                     "${i - 1}.$j"
                 }
-                timerIntent.putExtra(MainActivity.CUSTOM_TIMER_SERVICE_EXTRA_KEY,
+                timerIntent.putExtra(MainActivity.CUSTOM_TIMER_SERVICE_VALUE_EXTRA_KEY,
                     timerTime)
                 startActivity(timerIntent)
                 Thread.sleep(100)
                 if (timerTime == "0.1") {
-                    timerIntent.putExtra(MainActivity.CUSTOM_TIMER_SERVICE_EXTRA_KEY,
+                    timerIntent.putExtra(MainActivity.CUSTOM_TIMER_SERVICE_VALUE_EXTRA_KEY,
                         "0.0")
                     startActivity(timerIntent)
                 }
             }
+        }
+
+        if (!isStopped) {
+            startService(Intent(this, TimerService::class.java))
         }
     }
 }
