@@ -12,15 +12,9 @@ class MainActivity : AppCompatActivity() {
         const val TIMER_SERVICE_VALUE_EXTRA_KEY = "TIMER_SERVICE_EXTRA_KEY"
         const val CUSTOM_TIMER_SERVICE_VALUE_EXTRA_KEY = "CUSTOM_TIMER_SERVICE_EXTRA_KEY"
         const val TIMER_SERVICE_IS_STOPPED_EXTRA_KEY = "TIMER_SERVICE_IS_STOPPED_EXTRA_KEY"
-        const val TIMER_SERVICE_IS_CREATED_EXTRA_KEY = "TIMER_SERVICE_IS_CREATED_EXTRA_KEY"
-        const val CUSTOM_TIMER_SERVICE_IS_STOPPED_EXTRA_KEY = "CUSTOM_TIMER_SERVICE_IS_STOPPED_EXTRA_KEY"
-        const val CUSTOM_TIMER_SERVICE_IS_CREATED_EXTRA_KEY = "CUSTOM_TIMER_SERVICE_IS_CREATED_EXTRA_KEY"
+        const val CUSTOM_TIMER_SERVICE_IS_STOPPED_EXTRA_KEY =
+            "CUSTOM_TIMER_SERVICE_IS_STOPPED_EXTRA_KEY"
     }
-
-    private var isTimerServiceStopped = false
-    private var isCustomTimerServiceStopped = false
-    private var isTimerServicesCreated = false
-    private var isCustomTimerServicesCreated = false
 
     private val timerServiceIntent by lazy {
         Intent(this, TimerService::class.java)
@@ -73,28 +67,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (intent?.extras?.containsKey(TIMER_SERVICE_IS_STOPPED_EXTRA_KEY) == true) {
-            isTimerServiceStopped = true
-            isTimerServicesCreated = false
-        }
-
-        if (intent?.extras?.containsKey(TIMER_SERVICE_IS_CREATED_EXTRA_KEY) == true) {
-            isTimerServiceStopped = false
-            isTimerServicesCreated = true
+            binding.startAndroidIntentServiceButton.isEnabled = true
         }
 
         if (intent?.extras?.containsKey(CUSTOM_TIMER_SERVICE_IS_STOPPED_EXTRA_KEY) == true) {
-            isCustomTimerServiceStopped = true
-            isCustomTimerServicesCreated = false
-        }
-
-        if (intent?.extras?.containsKey(CUSTOM_TIMER_SERVICE_IS_CREATED_EXTRA_KEY) == true) {
-            isCustomTimerServiceStopped = false
-            isCustomTimerServicesCreated = true
-        }
-
-        if (!isCustomTimerServicesCreated && !isTimerServicesCreated) {
             binding.startAndroidIntentServiceButton.isEnabled = true
         }
-        intent?.extras?.clear()
     }
 }

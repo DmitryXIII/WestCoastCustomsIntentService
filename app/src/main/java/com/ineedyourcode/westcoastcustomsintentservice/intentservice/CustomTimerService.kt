@@ -1,30 +1,24 @@
 package com.ineedyourcode.westcoastcustomsintentservice.intentservice
 
 import android.content.Intent
-import android.util.Log
 import com.ineedyourcode.westcoastcustomsintentservice.MainActivity
 
-private const val TAG = "CUSTOM_TIMER_SERVICE_THREAD"
-private const val SERVICE_THREAD_NAME = "SERVICE_THREAD_NAME"
+private const val SERVICE_THREAD_NAME = "CUSTOM_TIMER_SERVICE_THREAD"
+private const val TIMER_DURATION_IN_SECONDS = 5
+private const val TIMER_DELAY = 100L
+private const val LAST_TIMER_VALUE = "0.1"
+private const val STOPPED_TIMER_VALUE = "0.0"
 
 class CustomTimerService : CustomIntentService(SERVICE_THREAD_NAME) {
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d(TAG,
-            "onStartCommand() called with: intent = $intent, startId = $startId")
-        return super.onStartCommand(intent, flags, startId)
-    }
-
     override fun onHandleIntent(intent: Intent?) {
-        Log.d(TAG, "onHandleIntent() called with: intent = $intent")
-
         val timerIntent = Intent(this, MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         }
 
         var timerTime: String
 
-        for (i in 5 downTo 1) {
+        for (i in TIMER_DURATION_IN_SECONDS downTo 1) {
             for (j in 10 downTo 1) {
                 timerTime = if (j == 10) {
                     "$i.0"
@@ -34,10 +28,10 @@ class CustomTimerService : CustomIntentService(SERVICE_THREAD_NAME) {
                 timerIntent.putExtra(MainActivity.CUSTOM_TIMER_SERVICE_VALUE_EXTRA_KEY,
                     timerTime)
                 startActivity(timerIntent)
-                Thread.sleep(100)
-                if (timerTime == "0.1") {
+                Thread.sleep(TIMER_DELAY)
+                if (timerTime == LAST_TIMER_VALUE) {
                     timerIntent.putExtra(MainActivity.CUSTOM_TIMER_SERVICE_VALUE_EXTRA_KEY,
-                        "0.0")
+                        STOPPED_TIMER_VALUE)
                     startActivity(timerIntent)
                 }
             }
@@ -45,6 +39,11 @@ class CustomTimerService : CustomIntentService(SERVICE_THREAD_NAME) {
 
         if (!isStopped) {
             startService(Intent(this, TimerService::class.java))
+        } else {
+            startActivity(Intent(this,
+                MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                .putExtra(MainActivity.CUSTOM_TIMER_SERVICE_IS_STOPPED_EXTRA_KEY,
+                    true))
         }
     }
 }
