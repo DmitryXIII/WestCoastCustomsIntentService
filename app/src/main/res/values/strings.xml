@@ -3,7 +3,7 @@
     <string name="start_services">Запустить сервисы</string>
     <string name="stop_all_services">Остановить сервисы</string>
     <string name="timer_start_time">Стартовое время таймера</string>
-    <string name="timer_start_value">0</string>
+    <string name="timer_start_value">5</string>
     <string name="custom_timer_start_value">5.0</string>
     <string name="intent_service_label">Intent service</string>
     <string name="custom_intent_service_label">Custom intent service</string>

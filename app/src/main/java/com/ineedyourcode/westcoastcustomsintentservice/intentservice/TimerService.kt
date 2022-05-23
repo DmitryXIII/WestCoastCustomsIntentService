@@ -20,13 +20,15 @@ class TimerService : IntentService(SERVICE_THREAD_NAME) {
 
     @Deprecated("Deprecated in Java")
     override fun onHandleIntent(intent: Intent?) {
-        for (i in 0..TIMER_DURATION_IN_SECONDS) {
-            val timerIntent = Intent(this, MainActivity::class.java).apply {
+        val timerIntent = Intent(this, MainActivity::class.java)
+
+        for (i in TIMER_DURATION_IN_SECONDS downTo 0) {
+            startActivity(timerIntent.apply {
                 addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 putExtra(MainActivity.TIMER_SERVICE_VALUE_EXTRA_KEY, i.toString())
-            }
-            startActivity(timerIntent)
-            if (i != TIMER_DURATION_IN_SECONDS) {
+            })
+
+            if (i != 0) {
                 Thread.sleep(TIMER_DELAY)
             }
         }
@@ -34,11 +36,11 @@ class TimerService : IntentService(SERVICE_THREAD_NAME) {
         if (!isStopped) {
             startService(Intent(this, CustomTimerService::class.java))
         } else {
-            startActivity(Intent(this,
-                MainActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                .putExtra(MainActivity.TIMER_SERVICE_IS_STOPPED_EXTRA_KEY,
-                    true))
+            startActivity(timerIntent.apply {
+                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                putExtra(MainActivity.TIMER_SERVICE_IS_STOPPED_EXTRA_KEY,
+                    true)
+            })
         }
     }
 }
