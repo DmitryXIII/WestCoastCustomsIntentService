@@ -11,11 +11,9 @@ private const val STOPPED_TIMER_VALUE = "0.0"
 
 class CustomTimerService : CustomIntentService(SERVICE_THREAD_NAME) {
 
-    override fun onHandleIntent(intent: Intent?) {
-        val timerIntent = Intent(this, MainActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        }
+    private val timerIntent = Intent(MainActivity.ACTION_TIMER_TIME)
 
+    override fun onHandleIntent(intent: Intent?) {
         var timerTime: String
 
         for (i in TIMER_DURATION_IN_SECONDS downTo 1) {
@@ -25,14 +23,17 @@ class CustomTimerService : CustomIntentService(SERVICE_THREAD_NAME) {
                 } else {
                     "${i - 1}.$j"
                 }
-                timerIntent.putExtra(MainActivity.CUSTOM_TIMER_SERVICE_VALUE_EXTRA_KEY,
-                    timerTime)
-                startActivity(timerIntent)
+
+                sendBroadcast(timerIntent
+                    .putExtra(MainActivity.CUSTOM_TIMER_SERVICE_VALUE_EXTRA_KEY,
+                        timerTime))
+
                 Thread.sleep(TIMER_DELAY)
+
                 if (timerTime == LAST_TIMER_VALUE) {
-                    timerIntent.putExtra(MainActivity.CUSTOM_TIMER_SERVICE_VALUE_EXTRA_KEY,
-                        STOPPED_TIMER_VALUE)
-                    startActivity(timerIntent)
+                    sendBroadcast(timerIntent
+                        .putExtra(MainActivity.CUSTOM_TIMER_SERVICE_VALUE_EXTRA_KEY,
+                            STOPPED_TIMER_VALUE))
                 }
             }
         }
@@ -40,8 +41,7 @@ class CustomTimerService : CustomIntentService(SERVICE_THREAD_NAME) {
         if (!isStopped) {
             startService(Intent(this, TimerService::class.java))
         } else {
-            startActivity(Intent(this,
-                MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            sendBroadcast(timerIntent
                 .putExtra(MainActivity.CUSTOM_TIMER_SERVICE_IS_STOPPED_EXTRA_KEY,
                     true))
         }
