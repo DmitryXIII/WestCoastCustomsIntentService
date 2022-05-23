@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,30 +10,65 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/start_android_intent_service_button"
+        android:id="@+id/start_services_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/padding_16"
-        android:text="@string/start_services" />
+        android:text="@string/start_services"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/intent_service_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_8"
+        android:text="@string/intent_service_label"
+        app:layout_constraintEnd_toEndOf="@id/timer_for_android_intent_service_text_view"
+        app:layout_constraintStart_toStartOf="@id/timer_for_android_intent_service_text_view"
+        app:layout_constraintTop_toBottomOf="@id/start_services_button" />
+
+    <TextView
+        android:id="@+id/custom_intent_service_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_8"
+        android:text="@string/custom_intent_service_label"
+        app:layout_constraintEnd_toEndOf="@id/timer_for_custom_intent_service_text_view"
+        app:layout_constraintStart_toStartOf="@id/timer_for_custom_intent_service_text_view"
+        app:layout_constraintTop_toBottomOf="@id/start_services_button" />
 
     <TextView
         android:id="@+id/timer_for_android_intent_service_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
         android:text="@string/timer_start_value"
-        android:textAppearance="@style/TextAppearance.Material3.DisplayLarge" />
+        android:textAppearance="@style/TextAppearance.Material3.DisplayLarge"
+        app:layout_constraintEnd_toStartOf="@id/timer_for_custom_intent_service_text_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/intent_service_label" />
 
     <TextView
         android:id="@+id/timer_for_custom_intent_service_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
         android:text="@string/custom_timer_start_value"
-        android:textAppearance="@style/TextAppearance.Material3.DisplayLarge" />
+        android:textAppearance="@style/TextAppearance.Material3.DisplayLarge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/timer_for_android_intent_service_text_view"
+        app:layout_constraintTop_toBottomOf="@id/custom_intent_service_label" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/stop_all_services_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/padding_16"
-        android:text="@string/stop_all_services" />
-</LinearLayout>
+        android:enabled="false"
+        android:text="@string/stop_all_services"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/timer_for_android_intent_service_text_view" />
+</androidx.constraintlayout.widget.ConstraintLayout>

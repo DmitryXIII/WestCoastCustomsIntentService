@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         registerReceiver(timerReceiver, IntentFilter(ACTION_TIMER_TIME))
 
-        binding.startAndroidIntentServiceButton.setOnClickListener {
+        binding.startServicesButton.setOnClickListener {
             startServices()
         }
 
@@ -74,7 +74,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun startServices() {
         startService(timerServiceIntent)
-        binding.startAndroidIntentServiceButton.isEnabled = false
+        binding.startServicesButton.isEnabled = false
+        binding.stopAllServicesButton.isEnabled = true
     }
 
     private fun checkIntent(intent: Intent?) {
@@ -84,8 +85,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (intent?.extras?.containsKey(TIMER_SERVICE_IS_STOPPED_EXTRA_KEY) == true) {
-            binding.startAndroidIntentServiceButton.isEnabled = true
-            binding.stopAllServicesButton.isEnabled = true
+            binding.startServicesButton.isEnabled = true
         }
 
         if (intent?.extras?.containsKey(CUSTOM_TIMER_SERVICE_VALUE_EXTRA_KEY) == true) {
@@ -94,8 +94,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (intent?.extras?.containsKey(CUSTOM_TIMER_SERVICE_IS_STOPPED_EXTRA_KEY) == true) {
-            binding.startAndroidIntentServiceButton.isEnabled = true
-            binding.stopAllServicesButton.isEnabled = true
+            binding.startServicesButton.isEnabled = true
         }
     }
 
@@ -107,7 +106,7 @@ class MainActivity : AppCompatActivity() {
             putString(CUSTOM_INTENT_SERVICE_TIMER_VALUE_ARG_KEY,
                 binding.timerForCustomIntentServiceTextView.text.toString())
             putBoolean(START_SERVICE_BUTTON_STATE_ARG_KEY,
-                binding.startAndroidIntentServiceButton.isEnabled)
+                binding.startServicesButton.isEnabled)
             putBoolean(STOP_SERVICE_BUTTON_STATE_ARG_KEY,
                 binding.stopAllServicesButton.isEnabled)
         }
@@ -119,7 +118,7 @@ class MainActivity : AppCompatActivity() {
             savedInstanceState.getString(INTENT_SERVICE_TIMER_VALUE_ARG_KEY).toString()
         binding.timerForCustomIntentServiceTextView.text =
             savedInstanceState.getString(CUSTOM_INTENT_SERVICE_TIMER_VALUE_ARG_KEY).toString()
-        binding.startAndroidIntentServiceButton.isEnabled =
+        binding.startServicesButton.isEnabled =
             savedInstanceState.getBoolean(START_SERVICE_BUTTON_STATE_ARG_KEY)
         binding.stopAllServicesButton.isEnabled =
             savedInstanceState.getBoolean(STOP_SERVICE_BUTTON_STATE_ARG_KEY)
