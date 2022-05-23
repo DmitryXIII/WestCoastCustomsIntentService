@@ -24,6 +24,7 @@ class TimerService : IntentService(SERVICE_THREAD_NAME) {
 
         for (i in TIMER_DURATION_IN_SECONDS downTo 0) {
             startActivity(timerIntent.apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 putExtra(MainActivity.TIMER_SERVICE_VALUE_EXTRA_KEY, i.toString())
             })
@@ -37,6 +38,7 @@ class TimerService : IntentService(SERVICE_THREAD_NAME) {
             startService(Intent(this, CustomTimerService::class.java))
         } else {
             startActivity(timerIntent.apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 putExtra(MainActivity.TIMER_SERVICE_IS_STOPPED_EXTRA_KEY,
                     true)
